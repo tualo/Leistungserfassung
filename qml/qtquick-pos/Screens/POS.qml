@@ -22,7 +22,7 @@ Rectangle {
         var region = regionPanel.getCurrent().region;
         var model = itemsPanel.model;
         //console.log('refreshList',loadingMask.jsonDebug(reportStore));
-        //console.log('refreshList',model.count)
+        console.log('refreshList',model.count)
         for(var i = 0; i < model.count ; i++  ){
             var amount = getAmount(model.get(i).artikel,region);
             //console.log('refreshList',model.get(i).artikel,region,amount)
@@ -33,11 +33,15 @@ Rectangle {
         eastPanel.inputPanel.buttonInput(-11);
     }
 
-    function setAmount(amount){
+    function setAmount(amount,article,region){
         //console.log('setAmount',amount,itemsPanel.model.get(itemsPanel.selectedIndex).artikel);
 
-        var article = itemsPanel.getCurrent().artikel;
-        var region = regionPanel.getCurrent().region;
+        if (typeof article==='undefined'){
+            article = itemsPanel.getCurrent().artikel;
+        }
+        if (typeof region==='undefined'){
+            region = regionPanel.getCurrent().region;
+        }
         //console.log('SET',amount);
         var appendId =true;
         for(var i in reportStore.grid){
@@ -124,7 +128,7 @@ Rectangle {
 
 
             loadLastReport(-2,res.result.head.kundennummer,0);
-            refreshList();
+            //refreshList();
 
         }else{
          console.log("ERROR",err);
@@ -199,7 +203,6 @@ Rectangle {
             belegnummer: reportNo,
             kostenstelle: receiverCst
         }
-        console.log(settings.url);
         loadingMask.post(settings.url,post,processLastReportResult);
     }
 
@@ -217,17 +220,20 @@ Rectangle {
             extMethod: 'save',
             extTID: '1',
             extAction: 'report'
-        }
+        },
+        i
 
-        for(var i in reportStore.head){
+        for(i in reportStore.head){
             post[i] = reportStore.head[i];
         }
         var liste = [];
-        for( var i in reportStore.grid){
+        for(i in reportStore.grid){
             if (reportStore.grid[i].anzahl * 1 !== 0){
                 liste.push(reportStore.grid[i]);
             }
         }
+
+
         post.liste = encodeURIComponent(JSON.stringify(liste));
         //console.log(post.liste);
         page.state = "Wait";
