@@ -1,0 +1,8 @@
+.DS_Store
+*.o
+android-build
+moc_*.cpp
+*.core
+*.so
+android*.json
+Makefile
