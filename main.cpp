@@ -1,17 +1,12 @@
-#include <QtGui/QGuiApplication>
-#include "qtquick2applicationviewer.h"
+#include <QGuiApplication>
+#include <QQmlApplicationEngine>
 
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
-    QCoreApplication::setApplicationName(APPLICATION_NAME);
-    QCoreApplication::setOrganizationName(ORGANIZATION_NAME);
 
-    QtQuick2ApplicationViewer viewer;
-
-    viewer.setTitle(APPLICATION_NAME);
-    viewer.setMainQmlFile(QStringLiteral("qml/qtquick-pos/main.qml"));
-    viewer.showExpanded();
+    QQmlApplicationEngine engine;
+    engine.load(QUrl(QStringLiteral("qrc:///qml/main.qml")));
 
     return app.exec();
 }

@@ -1,0 +1,41 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/resources/fontawesome-webfont.ttf</file>
+        
+        <file>qml/main.qml</file>
+        
+        <file>qml/singleton/qmldir</file>
+        <file>qml/singleton/App.qml</file>
+        <file>qml/singleton/AppButtonStyle.qml</file>
+        
+        <file>qml/content/Settings.qml</file>
+        <file>qml/content/About.qml</file>
+        <file>qml/content/Coworkers.qml</file>
+        <file>qml/content/CoworkerInput.qml</file>
+        <file>qml/content/ReceiptInputPanel.qml</file>
+        <file>qml/content/Exit.qml</file>
+        
+        <file>qml/content/parts/RegionList.qml</file>
+        <file>qml/content/parts/CoworkerArticleList.qml</file>
+        
+
+
+        <file>qml/content/delegates/CoworkersDelegate.qml</file>
+        <file>qml/content/delegates/RegionListDelegate.qml</file>
+        <file>qml/content/delegates/CoworkersArticleListDelegate.qml</file>
+        
+
+        <file>qml/content/AndroidDelegate.qml</file>
+        
+        <file>qml/content/Calendar.qml</file>
+        
+        
+        <file>qml/controls/TualoWindow.qml</file>
+        
+        <file>qml/controls/ReceiptInput.qml</file>
+        <file>qml/controls/LabeledTextField.qml</file>
+        <file>qml/controls/calendar/DayButton.qml</file>
+        <file>qml/controls/calendar/Calendar.qml</file>
+        
+    </qresource>
+</RCC>

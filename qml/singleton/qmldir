@@ -1,0 +1,2 @@
+singleton App 1.0 App.qml
+singleton AppButtonStyle 1.0 AppButtonStyle.qml
