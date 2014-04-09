@@ -101,7 +101,7 @@ TualoWindow {
     */
     function result( err, res ){
         
-        App.debug('Coworkers','result',App.jsonDebug(res));
+        //sApp.debug('Coworkers','result',App.jsonDebug(res));
         
         if ( res !== null){
             

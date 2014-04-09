@@ -26,3 +26,4 @@ Makefile
 *.exe
 *.so
 *.dll
+/package/win/packagess

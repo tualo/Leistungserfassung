@@ -3,7 +3,7 @@ import QtQuick 2.1
 Item {
     id: root
     width: parent.width
-    height: 88
+    height: 58
 
     FontLoader { id: fontAwesome; source: "../../resources/fontawesome-webfont.ttf" }
     signal clicked
