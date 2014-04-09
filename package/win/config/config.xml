@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Installer>
+    <Name>tualo - Leistungserfassung</Name>
+    <Version>1.4.0</Version>
+    <Title>tualo - Leistungserfassung - Installation</Title>
+    <Publisher>tualo solutions GmbH</Publisher>
+    <StartMenuDir>tualo - Leistungserfassung</StartMenuDir>
+    <TargetDir>@RootDir@InstallationDirectory</TargetDir>
+</Installer>

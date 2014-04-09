@@ -32,7 +32,7 @@ Rectangle {
         width: parent.width - labelWidth - 2*label.x
         text: "Text input"
         onTextChanged: {
-           changed(text);
+           //changed(text);
         }
     }
 

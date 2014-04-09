@@ -90,13 +90,23 @@ ApplicationWindow {
             color: backmouse.pressed ? "#222" : "transparent"
             Behavior on opacity { NumberAnimation{  easing.type: Easing.InCubic } }
             Text{
-                text: ( (stackView.currentItem!==null)  && (typeof stackView.currentItem.doneText==="string"))?stackView.currentItem.doneText:""
+                text: ( (stackView.currentItem!==null)  && (typeof stackView.currentItem.doneText==="string"))?stackView.currentItem.doneText.substring(0,stackView.currentItem.doneText.length-1):""
+                color: "white"
+                width: doneButton.width  - 34
+                height: doneButton.height
+                font.pixelSize: 34
+                //font.family: fontAwesome.name
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
+            }
+            Text{
+                text: ( (stackView.currentItem!==null)  && (typeof stackView.currentItem.doneText==="string"))?stackView.currentItem.doneText.substring(stackView.currentItem.doneText.length-1):""
                 color: "white"
                 width: doneButton.width
                 height: doneButton.height
                 font.pixelSize: 34
                 font.family: fontAwesome.name
-                horizontalAlignment: Text.AlignHCenter
+                horizontalAlignment: Text.AlignRight
                 verticalAlignment: Text.AlignVCenter
             }
 
