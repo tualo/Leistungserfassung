@@ -23,3 +23,6 @@ Makefile
 /tualo-Leistungserfassung80.png
 /tualo-leistungserfassung_qml_plugin_import.cpp
 .qmake.stash
+*.exe
+*.so
+*.dll
