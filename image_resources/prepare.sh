@@ -23,12 +23,14 @@ rm -R osx_icon.iconset
 echo "Creating Windows ICO"
     
 mkdir win
-convert osx.png -resize 256x256 win/icon-256.png
+#convert osx.png -bordercolor white -border 0  -clone 0 -resize 16x16  -clone 0 -resize 24x24  -clone 0 -resize 32x32 -clone 0 -resize 40x40 -clone 0 -resize 48x48 -clone 0 -resize 64x64 -clone 0 -resize 256x256 -delete 0 -alpha off -colors 256 icon.ico
+convert osx.png -bordercolor white -border 0 -resize 256x256 win/icon-256.png
 convert win/icon-256.png -resize 16x16 win/icon-16.png
+convert win/icon-256.png -resize 24x24 win/icon-24.png
 convert win/icon-256.png -resize 32x32 win/icon-32.png
 convert win/icon-256.png -resize 64x64 win/icon-64.png
 convert win/icon-256.png -resize 128x128 win/icon-128.png
-convert win/icon-16.png win/icon-32.png win/icon-64.png win/icon-128.png win/icon-256.png -colors 256 icon.ico
+convert win/icon-16.png win/icon-32.png win/icon-24.png win/icon-64.png win/icon-128.png win/icon-256.png  -alpha off -colors 256 icon.ico
 rm -R win    
  
 rm osx.png
