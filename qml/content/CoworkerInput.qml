@@ -15,7 +15,9 @@ TualoWindow {
     doneText: "Speichern \uf00c"
 
     function onDoneClicked(){
-        stackView.pop();
+        App.saveReceipt(function(){
+            stackView.pop();
+        });
     }
 
     Timer {
@@ -98,9 +100,13 @@ TualoWindow {
     
 
     Component.onCompleted: {
+        var tempDate = App.use_date;
         App.loadNewReceipt(function(){
-            refresh();
-            regionList.opacity = 1;
+             App.use_date = tempDate;
+            App.loadSingleDayReceipt(function(){
+                refresh();
+                regionList.opacity = 1;
+            });
         });
     }
 

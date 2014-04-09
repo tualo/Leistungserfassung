@@ -12,9 +12,7 @@ TualoWindow {
     doneText: "Ok \uf00c"
     
     function onDoneClicked(){
-        //App.debug('Calendar','onDoneClicked',cal.date)
-        App.use_date = cal.date;
-        App.saveSettings();
+        App.setDate( cal.date);
         stackView.pop()
     }
     

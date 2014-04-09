@@ -47,6 +47,13 @@ Item {
         return receiptStore.grid;
     }
     
+
+    function setDate(date){
+        
+        use_date = date;
+        debug('App','setDate',use_date);
+    }
+
     
     function setGridProperty(index,property,value){
         return receiptStore.grid[index][property]=value;
@@ -288,13 +295,10 @@ Item {
 
                 if ( res !== null){
                     var dateParts = res.result.head.datum.split('-');
-                    
                     use_date = new Date();
-                    use_date.setMonth(dateParts[1]);
+                    use_date.setMonth(dateParts[1]-1);
                     use_date.setYear(dateParts[0]);
                     use_date.setDate(dateParts[2]);
-                    //debug('App','loadNewReceipt',use_date);
-                    
                     receiptStore = res.result;
                     if (typeof callback==='function'){
                         callback();
@@ -311,6 +315,98 @@ Item {
     }
 
     
+    function loadSingleDayReceipt(callback){
+        var receiptNo = -2,
+            tempGrid = receiptStore.grid,
+            grid = [],
+            i = 0,
+            receiverNo = useReference.id,
+            receiverCst = (useReference.kostenstelle)?useReference.kostenstelle:0,
+            postArg = {
+                TEMPLATE: 'NO',
+                cmp: 'cmp_belege',
+                page: 'ajax/api/router',
+                b: receipt,
+                sid: sessionID,
+                extMethod: 'getReport',
+                extTID: '1',
+                extAction: 'report',
+                kundennummer: receiverNo,
+                belegnummer: receiptNo,
+                kostenstelle: receiverCst,
+                datum: use_date.toISOString().substring(0,10)
+            };
+        debug('App','loadSingleDayReceipt - Date',getShortDateString());
+        debug('App','loadSingleDayReceipt',jsonDebug(postArg));
+        try{
+            post(url,postArg, function( err, res ){
+
+
+                debug('App','loadSingleDayReceipt - RESULT',jsonDebug(res));
+                if ( res !== null){
+                    var dateParts = res.result.head.datum.split('-');
+                    use_date = new Date();
+                    use_date.setMonth(dateParts[1]-1);
+                    use_date.setYear(dateParts[0]);
+                    use_date.setDate(dateParts[2]);
+                    receiptStore = res.result;
+                    
+                    for(i in tempGrid){
+                        receiptStore.grid.push(tempGrid[i]);
+                    }
+                    
+                    if (typeof callback==='function'){
+                        callback();
+                    }
+                }else{
+                    debug('App','loadSingleDayReceipt - ERROR',jsonDebug(err));
+                }
+
+            } );
+        }catch(e){
+            console.log(e)
+            console.log(e.stack);
+        }
+    }
+    
+    function saveReceipt(callback){
+
+        var postArgs = {
+            TEMPLATE: 'NO',
+            cmp: 'cmp_belege',
+            page: 'ajax/api/router',
+            b: receipt,
+            sid: sessionID,
+            extMethod: 'save',
+            extTID: '1',
+            extAction: 'report'
+        },
+        i;
+
+        
+        for(i in receiptStore.head){
+            postArgs[i] = receiptStore.head[i];
+        }
+        
+        var liste = [];
+        for(i in receiptStore.grid){
+            if (receiptStore.grid[i].anzahl * 1 !== 0){
+                liste.push(receiptStore.grid[i]);
+            }
+        }
+
+
+        
+        postArgs.liste = encodeURIComponent(JSON.stringify(liste));
+        debug('App','saveReceipt - SAVE',jsonDebug(postArgs));
+        post(url,postArgs,function(err,res){
+            debug('App','saveReceipt - ERROR',jsonDebug(err));
+            debug('App','saveReceipt - RESULT',jsonDebug(res));
+            if (typeof callback === 'function'){
+                callback();
+            }
+        });
+    }
     
     
 }
