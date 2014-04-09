@@ -43,6 +43,25 @@ Item {
     Component.onCompleted: {
         use_date = new Date();
     }
+    function getCurrentGrid(){
+        return receiptStore.grid;
+    }
+    
+    
+    function setGridProperty(index,property,value){
+        return receiptStore.grid[index][property]=value;
+    }
+    
+    function getGridProperty(index,property){
+         
+        return receiptStore.grid[index][property];
+    }
+    
+    function addToGrid(item){
+         
+        receiptStore.grid.push(item);
+        return receiptStore.grid.length - 1;
+    }
     
     function getShortDateString(){
         var str = use_date.toISOString().substring(0,10).split('-').reverse().join('.');

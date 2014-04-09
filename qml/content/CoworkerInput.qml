@@ -7,24 +7,25 @@ import "../controls"
 import "../content/delegates"
 import "../content/parts"
 import "../singleton"
- 
+
 
 TualoWindow {
     id: root
     title: App.use_name + " am "+App.getShortDateString()
     doneText: "Speichern \uf00c"
-    
+
     function onDoneClicked(){
         stackView.pop();
     }
-    
+
     Timer {
         id: fadeoutTimer
         interval: 500
         running: false
         repeat: false
         onTriggered: {
-           coworkerArticleList.opacity = 1;
+            coworkerArticleList.opacity = 1;
+            root.refresh();
         }
     }
     Timer {
@@ -33,34 +34,72 @@ TualoWindow {
         running: false
         repeat: false
         onTriggered: {
-           coworkerReceiptInput.opacity = 1;
-           coworkerReceiptInput.refresh();
+            coworkerReceiptInput.opacity = 1;
+            coworkerReceiptInput.refresh();
         }
     }
-    
-    
-    Component.onCompleted: {
-        App.loadNewReceipt(function(){
-            var articleHash = {},
-                i,
-                itemList = [],
-                row;
-            
-            for(i in App.receiptStore.grid){
-                row = App.receiptStore.grid[i];
-                if (typeof articleHash[row.artikel] === 'undefined'){
-                    itemList.push( {
-                        name: row.artikel,
-                        amount: row.anzahl*1,
-                        __selected: false
-                    }); 
+
+    function refresh(){
+        var articleHash = {},
+            i,
+            j,
+            itemList = [],
+            row,
+            amount = 0,
+            selected = false,
+            grid = App.getCurrentGrid(),
+            article = "";
+
+        //App.debug('CoworkerInput','refresh grid',App.jsonDebug(grid));
+        //App.debug('CoworkerInput','Grid length',grid.length);
+        for(i in grid){
+            row = grid[i];
+            if (typeof articleHash[row.artikel] === 'undefined'){
+                amount = 0;
+                selected = false;
+                articleHash[row.artikel] = true;
+
+
+
+
+                itemList.push( {
+                    name: row.artikel,
+                    amount: amount,
+                    __selected: selected
+                }); 
+            }
+        }
+
+        if ( App.currentRegion!==null){
+            //App.debug('CoworkerInput','currentRegion name',App.currentRegion.name);
+            for(j in itemList){
+                article = itemList[j].name;
+                for(i in grid){
+                    row = grid[i];
+                    if ( (row.bereich === App.currentRegion.name) ){
+                        if ( (row.artikel) && (row.artikel === article) ){
+                            //App.debug('CoworkerInput','currentRegion row',App.jsonDebug(row));
+                            itemList[j].amount = row.anzahl*1;
+                            //itemList[j].__selected = true;
+                        }
+                    }
                 }
             }
-            App.debug('CoworkerInput','onCompleted',App.jsonDebug(itemList))
-            coworkerArticleList.listModel.clear();
-            for(i in itemList){
-                coworkerArticleList.listModel.append(itemList[i]);
-            }
+        }
+
+        //App.debug('CoworkerInput','onCompleted',App.jsonDebug(itemList))
+        coworkerArticleList.listModel.clear();
+        for(i in itemList){
+            coworkerArticleList.listModel.append(itemList[i]);
+        }
+        coworkerArticleList.selectIndex(0);
+    }
+
+    
+
+    Component.onCompleted: {
+        App.loadNewReceipt(function(){
+            refresh();
             regionList.opacity = 1;
         });
     }
@@ -70,8 +109,8 @@ TualoWindow {
         width: parent.width
         height: parent.height
         color: "#21212f"
-        
-        
+
+
         RegionList {
             id: regionList
             width: parent.width / 3
@@ -82,17 +121,18 @@ TualoWindow {
                 App.currentRegion = item;
                 if (coworkerArticleList.opacity === 0){
                     coworkerArticleList.opacity = 1;
+                    root.refresh();
                 }else{
                     coworkerArticleList.opacity = 0;
                     coworkerReceiptInput.opacity = 0;
                     fadeoutTimer.start();
                 }
                 //App.debug('CoworkerInput','onItemSelected',item.name);    
-                
+
             }
         }
-        
-        
+
+
         CoworkerArticleList {
             id: coworkerArticleList
             x: regionList.x + regionList.width
@@ -111,7 +151,7 @@ TualoWindow {
                 }
             }
         }
-        
+
         ReceiptInput{
             id: coworkerReceiptInput
             x: coworkerArticleList.x + coworkerArticleList.width
@@ -119,10 +159,14 @@ TualoWindow {
             width: parent.width / 3 - 10
             height: parent.height - 10
             Behavior on opacity { NumberAnimation{  easing.type: Easing.InCubic } }
+            onRefreshed:{
+                coworkerArticleList.listModel.setProperty(coworkerArticleList.lastSelectedIndex,'amount',amount);
+                //root.refresh();
+            }
         }
-        
+
     }
-    
+
 
 
 }

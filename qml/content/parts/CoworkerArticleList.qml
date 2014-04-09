@@ -14,6 +14,16 @@ Item {
     property var lastSelectedIndex: null
     signal itemSelected( var item )
     
+    function selectIndex(index){
+        if (lastSelectedIndex!==null){
+            listModel.setProperty(lastSelectedIndex,'__selected',false);
+        }
+        lastSelectedIndex = index;
+
+        listModel.setProperty(index,'__selected',true);
+        itemSelected(listModel.get(index));
+    }
+    
     Component.onCompleted: {
         //load();
     }
@@ -32,13 +42,7 @@ Item {
             delegate: CoworkersArticleListDelegate {
                 onClicked: {
                     if (index!==-1){
-                        if (lastSelectedIndex!==null){
-                            listModel.setProperty(lastSelectedIndex,'__selected',false);
-                        }
-                        lastSelectedIndex = index;
-                        
-                        listModel.setProperty(index,'__selected',true);
-                        itemSelected(listModel.get(index));
+                        selectIndex(index);
                     }
                 }
             }
