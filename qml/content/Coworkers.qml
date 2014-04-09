@@ -123,6 +123,9 @@ TualoWindow {
                              amount: amount,
                              vorname: vorname,
                              nachame: nachname,
+                             strasse: liste[i].strasse + ' ' + liste[i].hausnummer,
+                             plz: liste[i].plz,
+                             ort: liste[i].ort,
                              _selected: (i===0)?true:false
                         });
                     }

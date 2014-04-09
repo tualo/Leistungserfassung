@@ -381,13 +381,18 @@ Item {
             extTID: '1',
             extAction: 'report'
         },
-        i;
+            i,
+            zeit,
+            dateNow = new Date();
 
-        
+
         for(i in receiptStore.head){
-            postArgs[i] = receiptStore.head[i];
+            postArgs[i] =  receiptStore.head[i] ;
         }
-        
+
+        postArgs.zeit = dateNow.toISOString().substring(11,19);
+        postArgs.adresse = useReference.name + "\n" + useReference.strasse + "\n" + useReference.plz  + " " + useReference.ort;
+
         var liste = [];
         for(i in receiptStore.grid){
             if (receiptStore.grid[i].anzahl * 1 !== 0){
@@ -396,12 +401,11 @@ Item {
         }
 
 
-        
+
         postArgs.liste = encodeURIComponent(JSON.stringify(liste));
-        debug('App','saveReceipt - SAVE',jsonDebug(postArgs));
+        
         post(url,postArgs,function(err,res){
-            debug('App','saveReceipt - ERROR',jsonDebug(err));
-            debug('App','saveReceipt - RESULT',jsonDebug(res));
+            
             if (typeof callback === 'function'){
                 callback();
             }
