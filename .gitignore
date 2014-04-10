@@ -27,3 +27,4 @@ Makefile
 *.so
 *.dll
 /package/win/packagess
+*.user

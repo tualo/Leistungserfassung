@@ -132,6 +132,7 @@ Item {
                 tx.executeSql('INSERT INTO settings VALUES(?, ?)', [ 'department', department  ]);
                 tx.executeSql('INSERT INTO settings VALUES(?, ?)', [ 'items_group', items_group  ]);
 
+                loadSettings();
             }
         )
 
