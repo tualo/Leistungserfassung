@@ -17,6 +17,7 @@
         <file>qml/content/delegates/CoworkersArticleListDelegate.qml</file>
         <file>qml/content/AndroidDelegate.qml</file>
         <file>qml/content/Calendar.qml</file>
+        <file>qml/content/Authenticate.qml</file>
         <file>qml/controls/TualoWindow.qml</file>
         <file>qml/controls/ReceiptInput.qml</file>
         <file>qml/controls/LabeledTextField.qml</file>

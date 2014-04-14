@@ -3,6 +3,10 @@ import QtQuick.Controls 1.1
 import QtQuick.Controls.Styles 1.1
 import QtQuick.Layouts 1.1
 
+
+import QtMultimedia 5.0
+import QZXing 1.0
+
 import "../controls"
 import "../content/delegates"
 import "../content/parts"
@@ -13,13 +17,20 @@ TualoWindow {
     id: root
     title: App.use_name + " am "+App.getShortDateString()
     doneText: "Speichern \uf00c"
-
+    property bool enabledSave: true
+    
     function onDoneClicked(){
-        App.saveReceipt(function(){
-            stackView.pop();
-        });
+        if (enabledSave === true){
+            enabledSave = false;
+            
+            App.saveReceipt(function(){
+                stackView.pop();
+            });
+        }
     }
 
+    
+    
     Timer {
         id: fadeoutTimer
         interval: 500
@@ -100,6 +111,8 @@ TualoWindow {
     
 
     Component.onCompleted: {
+        enabledSave = true;    
+        title = App.use_name + " am "+App.getShortDateString();
         var tempDate = App.use_date;
         App.loadNewReceipt(function(){
              App.use_date = tempDate;

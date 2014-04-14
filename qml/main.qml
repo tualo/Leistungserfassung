@@ -162,6 +162,13 @@ ApplicationWindow {
             doneText: ""
             page: "content/Exit.qml"
         }
+        
+        ListElement {
+            iconText: "\uf08b"
+            title: "Auth"
+            doneText: ""
+            page: "content/Authenticate.qml"
+        }
     }
 
     StackView {
